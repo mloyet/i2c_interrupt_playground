@@ -46,6 +46,7 @@
 #include "i2c.h"
 #include "sci.h"
 #include "sys_vim.h"
+#include "EPSM_SCPI_interface.h"
 /* USER CODE END */
 
 /* Include Files */
@@ -62,7 +63,10 @@
 uint8_t temp[] = "SUP:LED ON";
 uint8_t ledON[] = {0x53, 0x55, 0x50, 0x3a, 0x4c, 0x45, 0x44, 0x20, 0x4f, 0x4e, 0x00}; // "SUP:LED ON\0"
 uint8_t ledOFF[] = {0x53, 0x55, 0x50, 0x3a, 0x4c, 0x45, 0x44, 0x20, 0x4f, 0x46, 0x46, 0x00}; // "SUP:LED OFF\0"
-uint8_t telemetryRequestSAI1[16] = {0x45, 0x50, 0x53, 0x4d, 0x3a, 0x54, 0x45, 0x4c, 0x20, 0x31, 0x2c, 0x44, 0x41, 0x54, 0x41, 0x00}; // "EPSM:TEL 0,DATA\0"
+uint8_t telemetryRequestSAI1[16] = {0x45, 0x50, 0x53, 0x4d, 0x3a, 0x54, 0x45, 0x4c, 0x20, 0x30, 0x2c, 0x44, 0x41, 0x54, 0x41, 0x00}; // "EPSM:TEL 0,DATA\0"
+uint8_t telemetryRequestBAT1[16] = {0x45, 0x50, 0x53, 0x4d, 0x3a, 0x54, 0x45, 0x4c, 0x20, 0x37, 0x2c, 0x44, 0x41, 0x54, 0x41, 0x00}; // "EPSM:TEL 0,DATA\0"
+uint8_t tempRequestSAI1[17] = "EPSM:TEL 25,DATA";
+uint8_t setBAT1Current[22] = "EPSM:BAT 1,CHG_I,8000";
 uint8_t response[14] = {0};
 
 
@@ -205,14 +209,16 @@ void I2C_sendSCPI() {
     i2cSetMode(i2cREG1, I2C_MASTER);
     i2cSetDirection(i2cREG1, I2C_TRANSMITTER);
 
-    i2cSetCount(i2cREG1, 16);
+    i2cSetCount(i2cREG1, 22);
 
     i2cSetStart(i2cREG1);
 
-    i2cSend(i2cREG1, 16, telemetryRequestSAI1);
+    i2cSend(i2cREG1, 22, setBAT1Current);
     i2cSetStop(i2cREG1);
 
-
+    /* Delay before the I2C bus is clear */
+    for(delay=0;delay<1000000;++delay);
+    for(delay=0;delay<1000000;++delay);
 
 }
 
@@ -227,7 +233,7 @@ void I2C_send_and_receiveSCPI() {
 
     i2cSetStart(i2cREG1);
     i2cDisableNotification(i2cREG1, I2C_TX_INT);
-    i2cSend(i2cREG1, 16, telemetryRequestSAI1);
+    i2cSend(i2cREG1, 16, telemetryRequestBAT1);
     i2cSetStop(i2cREG1);
 
     for(delay=0;delay<200000;++delay);
@@ -436,7 +442,12 @@ int main(void)
 
     i2cSetOwnAdd(i2cREG1, Own_Address);
 
-    I2C_send_and_receiveSCPI();
+    EPSM_set_battery_voltage_limit(1, 8000);
+    EPSM_set_battery_current_limit(1, 8000);
+
+    EPSM_converter_data_t *data;
+
+    data = EPSM_get_converter_data(BAT1_converter);
 
 //    I2C_getRPM();
 
