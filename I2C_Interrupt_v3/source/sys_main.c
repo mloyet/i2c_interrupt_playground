@@ -51,6 +51,7 @@
 
 /* Include Files */
 
+#include <stdbool.h>
 #include "sys_common.h"
 
 /* USER CODE BEGIN (1) */
@@ -442,14 +443,181 @@ int main(void)
 
     i2cSetOwnAdd(i2cREG1, Own_Address);
 
-    EPSM_set_battery_voltage_limit(1, 8000);
-    EPSM_set_battery_current_limit(1, 8000);
-
     EPSM_converter_data_t *data;
 
-    data = EPSM_get_converter_data(BAT1_converter);
+    /* ------------ DEFAULT VALUE TESTING -------------- */
+//    data = EPSM_get_converter_data(SAI1_converter);
+//    data = EPSM_get_converter_data(SAI2_converter);
+//    free(data);
+//    data = EPSM_get_converter_data(SAI3_converter);
+//    free(data);
+//    data = EPSM_get_converter_data(SAI4_converter);
+//    free(data);
+//    data = EPSM_get_converter_data(SAI5_converter);
+//    free(data);
+//    data = EPSM_get_converter_data(SAI6_converter);
+//    free(data);
+//    data = EPSM_get_converter_data(BAT1_converter);
+//    free(data);
+//    data = EPSM_get_converter_data(BAT2_converter);
+//    free(data);
+//    data = EPSM_get_converter_data(BUS3_3V_converter);
+//    free(data);
+//    data = EPSM_get_converter_data(BUS5V_converter);
+//    free(data);
+//    data = EPSM_get_converter_data(BUS12V_converter);
+//    free(data);
+//    data = EPSM_get_converter_data(AUX_converter);
+//    free(data);
 
+    /* ------------ TEMPERATURE VALUE TESTING -------------- */
+//    int16_t temp;
+//    temp = EPSM_get_temperature(SAI1);
+//    temp = EPSM_get_temperature(SAI2);
+//    temp = EPSM_get_temperature(SAI3);
+//    temp = EPSM_get_temperature(SAI4);
+//    temp = EPSM_get_temperature(SAI5A);
+//    temp = EPSM_get_temperature(SAI5B);
+//    temp = EPSM_get_temperature(SAI6A);
+//    temp = EPSM_get_temperature(SAI6B);
 //    I2C_getRPM();
+
+    /* ------------ ON/OFF RAIL TESTING -------------- */
+
+//    EPSM_set_bus(BUS3_3V_bus, false);
+//    data = EPSM_get_converter_data(BUS3_3V_converter);
+//    free(data);
+//    EPSM_set_bus(BUS3_3V_bus, true);
+//    data = EPSM_get_converter_data(BUS3_3V_converter);
+//    free(data);
+//
+//    EPSM_set_bus(BUS5V_bus, false);
+//    data = EPSM_get_converter_data(BUS5V_converter);
+//    free(data);
+//    EPSM_set_bus(BUS5V_bus, true);
+//    data = EPSM_get_converter_data(BUS5V_converter);
+//    free(data);
+//
+//    EPSM_set_bus(BUS12V_bus, false);
+//    data = EPSM_get_converter_data(BUS12V_converter);
+//    free(data);
+//    EPSM_set_bus(BUS12V_bus, true);
+//    data = EPSM_get_converter_data(BUS12V_converter);
+//    free(data);
+//
+//    EPSM_set_bus(AUX_bus, false);
+//    data = EPSM_get_converter_data(AUX_converter);
+//    free(data);
+//    EPSM_set_bus(AUX_bus, true);
+//    data = EPSM_get_converter_data(AUX_converter);
+//    free(data);
+
+
+    // batteries
+
+//    EPSM_set_battery(1, false);
+//    data = EPSM_get_converter_data(BAT1_converter);
+//    free(data);
+//    EPSM_set_battery(1, true);
+//    data = EPSM_get_converter_data(BAT1_converter);
+//    free(data);
+//
+//    EPSM_set_battery(2, false);
+//    data = EPSM_get_converter_data(BAT2_converter);
+//    free(data);
+//    EPSM_set_battery(2, true);
+//    data = EPSM_get_converter_data(BAT2_converter);
+//    free(data);
+
+    // SAIs
+
+//    EPSM_set_SAI(1, false);
+//    data = EPSM_get_converter_data(SAI1_converter);
+//    free(data);
+//    EPSM_set_SAI(1, true);
+//    data = EPSM_get_converter_data(SAI1_converter);
+//    free(data);
+
+//    EPSM_set_SAI(1, false);
+//    data = EPSM_get_converter_data(SAI1_converter);
+//    free(data);
+//    EPSM_set_SAI(1, true);
+//    data = EPSM_get_converter_data(SAI1_converter);
+//    free(data);
+
+//    EPSM_set_SAI(2, false);
+//    data = EPSM_get_converter_data(SAI2_converter);
+//    free(data);
+//    EPSM_set_SAI(2, true);
+//    data = EPSM_get_converter_data(SAI2_converter);
+//    free(data);
+//
+//    EPSM_set_SAI(3, false);
+//    data = EPSM_get_converter_data(SAI3_converter);
+//    free(data);
+//    EPSM_set_SAI(3, true);
+//    data = EPSM_get_converter_data(SAI3_converter);
+//    free(data);
+//
+//    EPSM_set_SAI(4, false);
+//    data = EPSM_get_converter_data(SAI4_converter);
+//    free(data);
+//    EPSM_set_SAI(4, true);
+//    data = EPSM_get_converter_data(SAI4_converter);
+//    free(data);
+//
+//    EPSM_set_SAI(5, false);
+//    data = EPSM_get_converter_data(SAI5_converter);
+//    free(data);
+//    EPSM_set_SAI(5, true);
+//    data = EPSM_get_converter_data(SAI5_converter);
+//    free(data);
+//
+//    EPSM_set_SAI(6, false);
+//    data = EPSM_get_converter_data(SAI6_converter);
+//    free(data);
+//    EPSM_set_SAI(6, true);
+//    data = EPSM_get_converter_data(SAI6_converter);
+//    free(data);
+
+
+
+
+    /* ------------ SET BAT VOLT LIMIT TESTING -------------- */
+
+    // voltage
+
+//    EPSM_set_battery_voltage_limit(1, 300);
+//    data = EPSM_get_converter_data(BAT1_converter); // 300 < 6000 => set at 6000
+//    free(data);
+//    EPSM_set_battery_voltage_limit(1, 8000);
+//    data = EPSM_get_converter_data(BAT1_converter);
+//    free(data);
+//
+//    EPSM_set_battery_voltage_limit(2, 16000);
+//    data = EPSM_get_converter_data(BAT2_converter);
+//    free(data);
+//    EPSM_set_battery_voltage_limit(2, 32000);
+//    data = EPSM_get_converter_data(BAT2_converter); // 32000 > 16800 => set at 16800
+//    free(data);
+
+    // current
+
+//    EPSM_set_battery_current_limit(1, -500);
+//    data = EPSM_get_converter_data(BAT1_converter); // -500 < 0 => set at 0
+//    free(data);
+//    EPSM_set_battery_current_limit(1, 5000);
+//    data = EPSM_get_converter_data(BAT1_converter);
+//    free(data);
+//
+//    EPSM_set_battery_current_limit(2, 10000);
+//    data = EPSM_get_converter_data(BAT2_converter);
+//    free(data);
+//    EPSM_set_battery_current_limit(2, 32000);
+//    data = EPSM_get_converter_data(BAT2_converter); // 32000 > 12000 => set at 12000
+//    free(data);
+
+
 
     while(1);
 

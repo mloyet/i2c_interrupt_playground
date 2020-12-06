@@ -85,6 +85,13 @@ void EPSM_turnOnLED(void);
 // Turns power on or off for given converter
 void EPSM_set_bus(EPSM_bus bus, bool status);
 
+// Turns power on or off for given battery
+void EPSM_set_battery(int batNum, bool status);
+
+// Turns power on or off for given SAI converter
+void EPSM_set_SAI(int saiNum, bool status);
+
+
 // @brief Sets charging voltage limit of battery batNum.
 //
 // batNum is 1 or 2.

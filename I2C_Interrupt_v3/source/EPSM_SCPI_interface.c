@@ -29,7 +29,7 @@ void make_SCPI_request(uint8_t *command_buffer, size_t length, char *receive_buf
     i2cSetStop(i2cREG1);
 
     uint32_t delay;
-    for(delay=0;delay<200000;++delay);
+    for(delay=0;delay<400000;++delay);
 
     uint8_t devNum[1];
     devNum[0] = 0;
@@ -91,7 +91,7 @@ EPSM_converter_data_t *EPSM_get_converter_data(EPSM_converter converter) {
     int teleDevice = (int)converter;
     // call make_SCPI_request
     char command[25];
-    sprintf(command, "EPSM:TEL %d,DATA", teleDevice);
+    sprintf(command, "EPSM:TEL? %d,DATA", teleDevice);
     size_t command_length = strlen(command);
 
     uint8_t result_buffer[14];
@@ -179,7 +179,7 @@ void EPSM_set_bus(EPSM_bus bus, bool status) {
                 sprintf(busStr, "3V3");
             break;
         case(BUS5V_bus):
-                sprintf(busStr, "5V5");
+                sprintf(busStr, "5V");
                 break;
         case(BUS12V_bus):
                 sprintf(busStr, "12V");
@@ -195,8 +195,26 @@ void EPSM_set_bus(EPSM_bus bus, bool status) {
 
 }
 
+// Turns power on or off for given converter
+void EPSM_set_battery(int batNum, bool status) {
+    char state[] = "OFF";
+    if(status){
+        sprintf(state, "ON");
+    }
 
-void EPSM_set_SAI_state(int saiNum, bool status) {
+    if(batNum > 2 || batNum < 1){
+        return; // invalid batnum
+    }
+
+    char command[25];
+    sprintf(command, "EPSM:BAT %d,%s", batNum, state);
+    size_t len = strlen(command);
+    send_SCPI_command((uint8_t *)command, len+1); //+1 for null terminator
+
+}
+
+
+void EPSM_set_SAI(int saiNum, bool status) {
     char state[] = "OFF";
     if(status){
         sprintf(state, "ON");
